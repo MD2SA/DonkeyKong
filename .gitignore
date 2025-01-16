@@ -24,3 +24,7 @@ Thumbs.db
 
 # Ignore scores record
 scores/
+
+#
+*.md
+LICENSE
