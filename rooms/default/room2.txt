@@ -1,0 +1,11 @@
+#3;room3.txt
+0 G  B   G
+WWWW SWWWW
+  m S     
+ WWWWWWSWW
+ gb    S m
+SWWh WWWWW
+Sm   s    
+WWW hWWWSW
+ g  H   S 
+WWWWWWWWWW
