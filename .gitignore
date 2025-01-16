@@ -1,0 +1,26 @@
+# Eclipse-specific files
+.classpath
+.project
+.settings/
+
+# Eclipse workspace-specific files
+.metadata/
+.localhistory/
+
+# Ignore Eclipse build output directories
+bin/
+out/
+target/
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Java class files
+*.class
+
+# Ignore user-specific IDE files
+*.iml
+
+# Ignore scores record
+scores/
