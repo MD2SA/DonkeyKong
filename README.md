@@ -18,6 +18,13 @@ These files enabled the initialization of the game but did not contain any gamep
 
 Although efficiency was not a priority at the outset due to the project's smaller scale and the primary focus on its object-oriented programming (OOP) aspects, I now plan to shift my attention toward optimizing the game, enhancing its performance, and improving its overall quality.
 
+## Game Commands
+
+Here are the commands you can use during gameplay:
+
+- **Arrow Keys**: Move your character (Manel) left, right, up, and down.
+- **B**: Drop a bomb at the current position
+
 ## Features
 
 - 2D game with simple graphics.
@@ -42,9 +49,61 @@ Although efficiency was not a priority at the outset due to the project's smalle
 
 - Option 1: Using an IDE (e.g., Eclipse)
   - If you're using an IDE like Eclipse, simply open the project and run the `Main` class directly.
-
+    
 - Option 2: Using Command Line (Manual Compilation)
   - If you prefer running the game via the command line or have made changes to the code, you can compile and run it manually. To make this process easier for Windows users, a script `run.ps1` has been created.
 
     ```bash
     .\run.ps1
+
+# 📋 Task List - DonkeyKong
+
+## 🛠️ Logic and Interaction
+- [ ] Improve game interaction logic
+- [ ] Fix existing bugs in game mechanics
+  - [ ] Bomb not exploding alone
+- [ ] Refactor gravity logic for more realistic behavior
+
+## 🚀 New Features
+- [ ] Add new levels or maps
+- [ ] Introduce new characters or enemies
+- [ ] Implement power-ups or collectibles
+- [ ] Improve scoring system
+  - [ ]  Show the leaderboard in a specific room
+  - [ ]  Add points to each run
+- [ ] Implement a visual inventory
+- [ ] Implement new alternative movement controls in addition to the arrow keys, such as WASD for gamers and HJKL for Vim users.
+- [ ] New movement
+  - [ ] Jump
+  - [ ] Sprint  
+- [ ] Include animations for entities' actions
+
+## 🧪 Testing
+- [ ] Write unit tests for core game logic
+- [ ] Test edge cases for player interactions
+
+## 🎨 Design and UI
+- [ ] Improve visual feedback for player actions (e.g., sound effects, visual cues)
+- [ ] Make the game window resizable
+- [ ] Create better UI for entire window
+- [ ] Add a pause menu with options (e.g., restart, exit)
+- [ ] Ensure the game scales correctly when resized
+
+## 📚 Documentation
+- [ ] Write a `README.md` with:
+  - [ ] Project description
+  - [ ] Instructions to set up and run the game
+  - [ ] Controls and gameplay guide
+- [ ] Add in-code comments for key functions and modules
+- [ ] Create a flowchart for game mechanics and interactions
+
+## 🧹 Optimization and Maintenance
+- [ ] Optimize game performance (e.g., reduce lag, improve FPS)
+- [ ] Refactor code for better readability and modularity
+- [ ] Fix any performance issues
+
+## 🌟 Future Ideas
+- [ ] Add multiplayer support (local or online)
+- [ ] Implement a level editor for users to create their own maps
+- [ ] Add achievements or unlockable content
+
