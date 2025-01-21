@@ -64,6 +64,7 @@ public abstract class GameElement implements ImageTile, Interactable{
         }
 
         protected void setPosition(Point2D position) {
+                room.changePosition(this, position);
                 this.position = position;
         }
 
