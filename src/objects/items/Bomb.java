@@ -31,6 +31,11 @@ public class Bomb extends Catchable implements Usable {
                 return !dropped;
         }
 
+        // @Override
+        // public void update(){
+        //
+        // }
+
         @Override
         public void interact(GameElement element, Point2D position){
                 if( isCooked() && hasTimerRunOut() ) explode();

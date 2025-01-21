@@ -121,9 +121,9 @@ public class GameEngine implements Observer {
         }
 
         private void processTick() {
-                room.moveEntities();
+                room.processTick();
                 if (room.isWon())
-                room.nextLevel();
+                        room.nextLevel();
                 lastTickProcessed++;
         }
 

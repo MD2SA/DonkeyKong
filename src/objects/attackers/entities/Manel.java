@@ -39,8 +39,8 @@ public class Manel extends Entity {
         return instance;
     }
 
-    @Override
-    public void move() { /*JumpMan does not have a default movement only custom*/ }
+    // @Override
+    // public void move() { /*JumpMan does not have a default movement only custom*/ }
 
     @Override
     public void terminate() {

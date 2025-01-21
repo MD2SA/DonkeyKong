@@ -7,27 +7,32 @@ import pt.iscte.poo.utils.Point2D;
 
 public abstract class Catchable extends GameElement {
 
-    private final boolean stackable;
+        private final boolean stackable;
 
-	public Catchable(String name, Point2D position, boolean stackable) {
-		super(name, position, Layer.Catchable);
-        this.stackable = stackable;
-	}
+        public Catchable(String name, Point2D position, boolean stackable) {
+                super(name, position, Layer.Catchable);
+                this.stackable = stackable;
+        }
 
-	@Override
-	public boolean canBeTransposedBy(GameElement element) { return true; }
+        @Override
+        public void update(){
+                setPositionToInteract(getPosition());
+        }
 
-	@Override
-	public void interact(GameElement element,Point2D position) {
-		if( !(element instanceof Entity) || !canInteract((Entity)element) )
-            return;
-		boolean used = actionBy((Entity)element);
-        if( used ) terminate();
-	}
+        @Override
+        public boolean canBeTransposedBy(GameElement element) { return true; }
 
-    protected abstract boolean canInteract(Entity element);
+        @Override
+        public void interact(GameElement element,Point2D position) {
+                if( !(element instanceof Entity) || !canInteract((Entity)element) )
+                return;
+                boolean used = actionBy((Entity)element);
+                if( used ) terminate();
+        }
 
-	protected abstract boolean actionBy(Entity element);
+        protected abstract boolean canInteract(Entity element);
 
-    public final boolean isStackable(){ return stackable; }
+        protected abstract boolean actionBy(Entity element);
+
+        public final boolean isStackable(){ return stackable; }
 }
