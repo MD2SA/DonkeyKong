@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.function.Predicate;
 
 import objects.GameElement;
@@ -157,30 +159,54 @@ public class Room {
                 if ( element instanceof Movable){
                         Movable movable = ((Movable)element);
                         if(movable.isFallingAt(element.getPosition()))
-                        movable.move(Direction.DOWN);
+                                movable.move(Direction.DOWN);
                         else
-                        movable.move();
+                                movable.move();
                 }
                 update();
         }
 
         public void update(){
+                manageInteractions();
                 mergeNewElements();
                 clearInvalid();
         }
 
-        public void interactWith(GameElement gameElement, Point2D position) {
-                if( gameElement == null || !isWithinBounds(position) ) return;
+        public void manageInteractions(){
+                Map<Point2D,List<GameElement>> map = getRoomMap();
 
-                for( GameElement element : gameElements)
-                if( !(gameElement.equals(element)) )
-                element.interact(gameElement,position);
+                for( GameElement element : gameElements) {
+                        Point2D posToInteract = element.getPositionToInteract();
+                        if ( posToInteract == null || !map.containsKey(posToInteract) )
+                                continue;
+                        for( GameElement elementToInteract : map.get(posToInteract) ){
+                                if( elementToInteract.equals(element) )
+                                        continue;
+                                elementToInteract.interact(element, posToInteract);
+                                element.setPositionToInteract(null);
+                        }
+                }
+        }
+
+        private Map<Point2D,List<GameElement>> getRoomMap(){
+                Map<Point2D,List<GameElement>> map = new HashMap<>();
+
+                for( GameElement element : gameElements){
+                        List<GameElement> list = map.getOrDefault(element.getPosition(),new ArrayList<>());
+                        map.compute(element.getPosition(), (k,v) ->{
+                                if( v == null )
+                                        v = new ArrayList<>();
+                                v.add(element);
+                                return v;
+                        });
+                }
+                return map;
         }
 
         private void mergeNewElements(){
                 toAdd.removeIf(element->{
                         if(element != null && gameElements.add(element))
-                        ImageGUI.getInstance().addImage(element);
+                                ImageGUI.getInstance().addImage(element);
                         return true;
                 });
         }
