@@ -69,9 +69,9 @@ public abstract class Entity extends MovableAttacker implements Attackable {
         @Override
         public void interact(GameElement element, Point2D position) {
                 if (!getPosition().equals(position) || element == null)
-                return;
+                        return;
                 if (element instanceof Attacker)
-        ((Attacker) element).attack(this);
+                        ((Attacker) element).attack(this);
         }
 
         @Override
@@ -83,6 +83,9 @@ public abstract class Entity extends MovableAttacker implements Attackable {
 
         @Override
         public void move() {
+                if ( isFallingAt(getPosition()) ) {
+                        move(Direction.DOWN);
+                }
                 int level = room.getLevel();
                 Point2D currentPos = getPosition();
                 Point2D manelPos = Manel.getInstance().getPosition();

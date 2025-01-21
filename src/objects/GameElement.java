@@ -76,6 +76,8 @@ public abstract class GameElement implements ImageTile, Interactable{
                 return element.getLayer()>getLayer();
         }
 
+        public abstract void update();
+
         public void terminate(){
                 setPosition(Room.TERMINATE_POSITION);
         }

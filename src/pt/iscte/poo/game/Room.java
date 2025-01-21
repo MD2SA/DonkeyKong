@@ -10,11 +10,9 @@ import java.util.HashMap;
 import java.util.function.Predicate;
 
 import objects.GameElement;
-import objects.interfaces.Movable;
 import objects.interfaces.WinVerifier;
 import objects.staticElements.Floor;
 import pt.iscte.poo.gui.ImageGUI;
-import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.FileUtil;
 import pt.iscte.poo.utils.Point2D;
 
@@ -154,15 +152,9 @@ public class Room {
                 }
         }
 
-        public void moveEntities() {
-                for(GameElement element : gameElements)
-                if ( element instanceof Movable){
-                        Movable movable = ((Movable)element);
-                        if(movable.isFallingAt(element.getPosition()))
-                                movable.move(Direction.DOWN);
-                        else
-                                movable.move();
-                }
+        public void processTick(){
+                for ( GameElement element : gameElements )
+                        element.update();
                 update();
         }
 
