@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.List;
+
 import objects.attackers.entities.BadGuy;
 import objects.attackers.entities.Bat;
 import objects.attackers.entities.DonkeyKong;
@@ -28,7 +30,6 @@ public abstract class GameElement implements ImageTile, Interactable{
         private Point2D position;
         private final int layer;
         protected Room room;
-        private Point2D positionToInteract;
 
         public GameElement(String name, Point2D position, Layer layer) {
                 this.name = name;
@@ -56,16 +57,13 @@ public abstract class GameElement implements ImageTile, Interactable{
                 return position;
         }
 
-        public void setPositionToInteract(Point2D position) {
-                positionToInteract = position;
-        }
-        public Point2D getPositionToInteract() {
-                return positionToInteract;
-        }
-
+        // the day this throws a concurrency exception is because an interaction is changing a element from place
         protected void setPosition(Point2D position) {
-                room.changePosition(this, position);
+                room.getElementsAt(this.position).remove(this);
                 this.position = position;
+                List<GameElement> list = room.getElementsAt(position);
+                if( list == null ) System.out.println(position);
+                list.add(this);
         }
 
         @Override
@@ -80,7 +78,8 @@ public abstract class GameElement implements ImageTile, Interactable{
         public abstract void update();
 
         public void terminate(){
-                setPosition(Room.TERMINATE_POSITION);
+                room.removeElement(this);
+                // setPosition(Room.TERMINATE_POSITION);
         }
 
         public abstract void interact(GameElement element, Point2D position);

@@ -31,10 +31,9 @@ public class Bomb extends Catchable implements Usable {
                 return !dropped;
         }
 
-        // @Override
-        // public void update(){
-        //
-        // }
+        @Override
+        public void update(){
+        }
 
         @Override
         public void interact(GameElement element, Point2D position){
@@ -67,8 +66,8 @@ public class Bomb extends Catchable implements Usable {
                 //animation
                 neighbours.forEach(p->new Explosion(p));
 
-                // room.removeIf(e->neighbours.contains(e.getPosition()) &&
-                //         !(e instanceof StaticElement) );
+                room.removeIf(e->neighbours.contains(e.getPosition()) &&
+                        !(e instanceof StaticElement) );
                 return true;
         }
 

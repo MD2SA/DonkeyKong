@@ -1,6 +1,5 @@
 package objects.staticElements.engageables;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import objects.GameElement;
@@ -24,12 +23,10 @@ public class Trap extends StaticElement implements Attacker {
 	}
 
 	protected void activateTrap() {
-		List<GameElement> gameElements = new ArrayList<>();
+		List<GameElement> gameElements = room.getElements();
 		Point2D pos = getPosition();
-		for( Point2D position : neighbours ){
+		for( Point2D position : neighbours )
 			new Fire(pos.directionTo(position),position);
-                        gameElements.addAll(room.getElements(position));
-                }
 
 		for( GameElement element : gameElements )
 			if( neighbours.contains(element.getPosition()) && element instanceof Attackable )
