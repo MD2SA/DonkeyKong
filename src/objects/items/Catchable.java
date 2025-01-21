@@ -16,7 +16,7 @@ public abstract class Catchable extends GameElement {
 
         @Override
         public void update(){
-                setPositionToInteract(getPosition());
+                room.getRoomMap().get(getPosition()).forEach(e->interact(e,e.getPosition()));
         }
 
         @Override
@@ -25,7 +25,7 @@ public abstract class Catchable extends GameElement {
         @Override
         public void interact(GameElement element,Point2D position) {
                 if( !(element instanceof Entity) || !canInteract((Entity)element) )
-                return;
+                        return;
                 boolean used = actionBy((Entity)element);
                 if( used ) terminate();
         }
