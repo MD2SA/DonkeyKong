@@ -6,11 +6,11 @@ import pt.iscte.poo.utils.Point2D;
 
 public class Wall extends StaticElement {
 
-	public Wall(Point2D position) {
-		super("Wall", position, Layer.Support);
-	}
+        public Wall(Point2D position) {
+                super("Wall", position, Layer.Support);
+        }
 
-    @Override
-    public void interact(GameElement element,Point2D position) {}
+        @Override
+        public void interact(GameElement element,Point2D position) {}
 
 }
