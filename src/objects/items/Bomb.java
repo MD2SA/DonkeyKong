@@ -67,8 +67,8 @@ public class Bomb extends Catchable implements Usable {
                 //animation
                 neighbours.forEach(p->new Explosion(p));
 
-                room.removeIf(e->neighbours.contains(e.getPosition()) &&
-                        !(e instanceof StaticElement) );
+                // room.removeIf(e->neighbours.contains(e.getPosition()) &&
+                //         !(e instanceof StaticElement) );
                 return true;
         }
 

@@ -90,10 +90,10 @@ Here are the commands you can use during gameplay:
 - [ ] Ensure the game scales correctly when resized
 
 ## 📚 Documentation
-- [ ] Write a `README.md` with:
-  - [ ] Project description
-  - [ ] Instructions to set up and run the game
-  - [ ] Controls and gameplay guide
+- [x] Write a `README.md` with:
+  - [x] Project description
+  - [x] Instructions to set up and run the game
+  - [x] Controls and gameplay guide
 - [ ] Add in-code comments for key functions and modules
 - [ ] Create a flowchart for game mechanics and interactions
 
