@@ -41,14 +41,9 @@ public class Manel extends Entity {
         }
 
         @Override
-        public void move() { /*JumpMan does not have a default movement only custom*/ }
-
-        @Override
-        public void move(Direction direction){
+        public void move() {
                 if( isFallingAt(getPosition()) )
-                        move(Direction.DOWN);
-                else
-                        move(direction);
+                        super.move(Direction.DOWN);
         }
 
         @Override
