@@ -19,6 +19,8 @@ import pt.iscte.poo.utils.Point2D;
 public class Room {
 
         private static final String defaultDir = "rooms/default/";
+        private static final String END_GAME = "endGame";
+        private static final String INIT_CHAR = "#";
         private String roomsDir;
 
         private final Map<Point2D,List<GameElement>> map = new HashMap<>();
@@ -83,81 +85,43 @@ public class Room {
         }
 
         public void nextLevel() {
-                if (nextRoomPath.contains("endGame")) {
+                if (nextRoomPath.contains(END_GAME)) {
                         engine.endGame();
                         return;
                 }
-                gameElements.clear();
-                toAdd.clear();
-                ImageGUI.getInstance().clearImages();
-                winElement = null;
+                cleanGame();
 
-                File file;
-                file = new File(roomsDir+nextRoomPath);
-
-                System.out.println(file);
+                File file = new File(roomsDir+nextRoomPath);
                 loadFrom(file);
                 level++;
         }
 
-        private void loadFrom(File file) {
-                int width = engine.getWidth();
-                int height = engine.getHeight();
-                int y = -1;
-                try(Scanner scanner = new Scanner(file)){
-                        addBoundaryPoints(-1, width, -1, true);
-                        addBoundaryPoints(-1, width, height, true);
-                        addBoundaryPoints(-1, height, -1, false);
-                        addBoundaryPoints(-1, height, width, false);
-                        while (scanner.hasNextLine()) {
-                                String linha = scanner.nextLine();
+        private void cleanGame(){
+                map.clear();
+                gameElements.clear();
+                toAdd.clear();
+                toRemove.clear();
+                ImageGUI.getInstance().clearImages();
+                winElement = null;
+        }
 
-                                if( linha == null || linha.isEmpty() )
-                                continue;
-                                if( y == -1 ){
-                                        y = 0;
-                                        if ( linha.startsWith("#") ) {
-                                                scanInitialLine(linha);
-                                                continue;
-                                        } else {
-                                                nextRoomPath = "endGame";
-                                        }
-                                }
-
-                                if( linha.length() < width) System.err.println("Line nº"+y+" is smaller than expected");
-                                for(int i = 0; i<width; i++) {
-
-                                        char c;
-                                        if( linha.length()>i)
-                                        c = linha.charAt(i);
-                                        else
-                                        c = ' ';
-
-                                        Point2D position = new Point2D(i,y);
-                                        List<GameElement> list = new ArrayList<>();
-                                        map.put(position,list);
-                                        GameElement element = GameElement.createFrom(c,position);
-                                        ImageGUI.getInstance().addImage(element);
-
-                                        if ( !(element instanceof Floor) )
-                                                ImageGUI.getInstance().addImage(new Floor(position));
-
-                                        if(element instanceof WinVerifier)
-                                                winElement = (WinVerifier)element;
-                                        if( !(element instanceof Manel) )
-                                                list.add(element);
-                                        gameElements.add(element);
-                                }
-                                y++;
-                        }
-                        if( y != height ) {
-                                engine.abort();
-                        }
-                        scanner.close();
-                } catch( FileNotFoundException e){
+        private void loadFrom(File file){
+                try (Scanner scanner = new Scanner(file) ) {
+                        loadBoundaries();
+                        processFile(scanner);
+                } catch ( FileNotFoundException e ) {
                         System.err.println("Error loading file: "+file.getName());
                         loadFrom(FileUtil.askUserFile());
                 }
+        }
+
+        private void loadBoundaries() {
+                int width = engine.getWidth();
+                int height = engine.getHeight();
+                addBoundaryPoints(-1, width, -1, true);
+                addBoundaryPoints(-1, width, height, true);
+                addBoundaryPoints(-1, height, -1, false);
+                addBoundaryPoints(-1, height, width, false);
         }
 
         private void addBoundaryPoints(int start, int end, int fixedCoordinate, boolean isHorizontal) {
@@ -172,7 +136,28 @@ public class Room {
                 }
         }
 
-        private void scanInitialLine(String line) {
+        private void processFile(Scanner scanner) {
+                int y = -1;
+                while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        if( line.isEmpty() ) continue;
+
+                        if( y == -1 )
+                                parseRoomConfig(line);
+                        else
+                                parseGameLine(line,y);
+                        y++;
+                }
+                if( y != engine.getHeight() ) {
+                        engine.abort();
+                }
+        }
+
+        private void parseRoomConfig(String line) {
+                if ( line.startsWith(INIT_CHAR) ) {
+                        nextRoomPath = END_GAME;
+                        return;
+                }
                 try {
                         String[] parts = line.split(";");
                         level = Integer.parseInt(parts[0].substring(1));
@@ -181,6 +166,38 @@ public class Room {
                         engine.abort();
                 }
         }
+
+
+        private void parseGameLine(String line,int y) {
+                int x = engine.getWidth();
+
+                if( line.length() < x)
+                        System.err.println("Line nº"+y+" is smaller than expected");
+
+                for(int i = 0; i<x; i++) {
+                        char c = (line.length()>i)?line.charAt(i):' ';
+
+                        Point2D position = new Point2D(i,y);
+                        map.computeIfAbsent(position, l->new ArrayList<>());
+                        GameElement element = GameElement.createFrom(c,position);
+
+                        handleNewFileElement(element,element.getPosition());
+                }
+        }
+
+        private void handleNewFileElement(GameElement element,Point2D position){
+                ImageGUI.getInstance().addImage(element);
+
+                if ( !(element instanceof Floor) )
+                        ImageGUI.getInstance().addImage(new Floor(position));
+                if(element instanceof WinVerifier)
+                        winElement = (WinVerifier)element;
+                if( !(element instanceof Manel) )
+                        map.get(position).add(element);
+                gameElements.add(element);
+        }
+
+
 
         public void processTick(){
                 for ( GameElement element : gameElements )
@@ -247,20 +264,5 @@ public class Room {
                         position.getX()>=0 && position.getX()<engine.getWidth() &&
                         position.getY()>=0 && position.getY()<engine.getHeight();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
