@@ -1,7 +1,5 @@
 package objects;
 
-import java.util.List;
-
 import objects.attackers.entities.BadGuy;
 import objects.attackers.entities.Bat;
 import objects.attackers.entities.DonkeyKong;
@@ -59,11 +57,9 @@ public abstract class GameElement implements ImageTile, Interactable{
 
         // the day this throws a concurrency exception is because an interaction is changing a element from place
         protected void setPosition(Point2D position) {
-                room.getElementsAt(this.position).remove(this);
+                room.getRoomMap().get(getPosition()).remove(this);
                 this.position = position;
-                List<GameElement> list = room.getElementsAt(position);
-                if( list == null ) System.out.println(position);
-                list.add(this);
+                room.getRoomMap().get(position).add(this);
         }
 
         @Override
@@ -92,9 +88,9 @@ public abstract class GameElement implements ImageTile, Interactable{
                         case 't': return new Trap(position);
                         case 'G': return new DonkeyKong(position);
                         case 'H':
-                        Manel manel = Manel.getInstance();
-                        manel.setInitialPosition(position);
-                        return manel;
+                                Manel manel = Manel.getInstance();
+                                manel.setInitialPosition(position);
+                                return manel;
                         case 'P': return new Princess(position);
                         case 'h': return new HiddenTrap(position);
                         case 'B': return new Bat(position);

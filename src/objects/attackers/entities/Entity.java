@@ -92,7 +92,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
 
                 // if same pos interact with position
                 if ( currentPos.equals(manelPos) ){
-                        room.getRoomMap().get(manelPos).forEach(e ->  {
+                        room.getElementsAt(manelPos).forEach(e ->{
                                 if( !this.equals(e) )
                                         e.interact(this, manelPos);
                         });
@@ -131,9 +131,10 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 if (canMove(direction))
                         setPosition(newPosition);
 
-                room.getRoomMap().get(newPosition).forEach(e ->{
-                        if( !this.equals(e) )
-                        e.interact(this, newPosition);
+                room.getElementsAt(newPosition).forEach(e ->{
+                        if( !this.equals(e) ){
+                                e.interact(this, newPosition);
+                        }
                 });
         }
 

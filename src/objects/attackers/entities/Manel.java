@@ -54,8 +54,8 @@ public class Manel extends Entity {
             room = GameEngine.getInstance().getCurrentRoom();
         } else {
             ImageGUI.getInstance().setStatusMessage("JumpMan died...");
-                        room.removeElement(this);
-                        room.addElement(this);
+                        // room.removeElement(this);
+                        // room.addElement(this);
             setPosition(initalPosition);
         }
     }

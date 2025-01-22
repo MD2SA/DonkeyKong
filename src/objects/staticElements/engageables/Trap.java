@@ -15,30 +15,43 @@ public class Trap extends StaticElement implements Attacker {
 
 	private static final double attack = 5;
 
-    private final List<Point2D> neighbours;
+        private final List<Point2D> neighbours;
 
 	public Trap(Point2D position) {
 		super("Trap", position, Layer.Support);
-        this.neighbours = getPosition().getNeighbourhoodPoints();
+                this.neighbours = getPosition().getNeighbourhoodPoints();
 	}
 
-	protected void activateTrap() {
-		List<GameElement> gameElements = room.getElements();
-		Point2D pos = getPosition();
-		for( Point2D position : neighbours )
-			new Fire(pos.directionTo(position),position);
+        @Override
+        public void update(){
+                activateTrap();
+        }
 
-		for( GameElement element : gameElements )
-			if( neighbours.contains(element.getPosition()) && element instanceof Attackable )
-				attack(((Attackable)element));
-	}
+	protected boolean activateTrap() {
+		List<GameElement> gameElements = room.getElementsAt(neighbours.toArray(new Point2D[0]));
 
-    @Override
-    public void interact(GameElement element,Point2D position){
-        if ( !(element instanceof Manel) || !neighbours.contains(element.getPosition()) )
-        	return;
-        activateTrap();
-    }
+                boolean found = false;
+                for( GameElement element : gameElements ){
+                        if(  element instanceof Attackable ){
+                                found = true;
+                                attack(((Attackable)element));
+                        }
+                }
+                //animations
+                if( found ) {
+                        Point2D pos = getPosition();
+                        for( Point2D position : neighbours )
+                        new Fire(pos.directionTo(position),position);
+                }
+                return found;
+        }
+
+        @Override
+        public void interact(GameElement element,Point2D position){
+                if ( !(element instanceof Manel) || !neighbours.contains(element.getPosition()) )
+                return;
+                activateTrap();
+        }
 
 	@Override
 	public void attack(Attackable element) {
