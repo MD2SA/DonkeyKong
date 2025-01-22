@@ -63,7 +63,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 new Blood(getPosition());
                 ImageGUI.getInstance().setStatusMessage(super.getName() + " got attacked." + health + "/" + maxHealth);
                 if (health <= 0)
-                terminate();
+                        terminate();
         }
 
         @Override
@@ -78,7 +78,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
         public boolean isFallingAt(Point2D position) {
                 boolean hasSupport = !room.canTranspose(this, position.plus(Direction.DOWN.asVector()));
                 return !hasSupport && !canFly && (!room.hasElement(Stairs.class, position) &&
-                !room.hasElement(Stairs.class, position.plus(Direction.DOWN.asVector())));
+                        !room.hasElement(Stairs.class, position.plus(Direction.DOWN.asVector())));
         }
 
         @Override
@@ -116,11 +116,11 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 int dy = Integer.signum(manelPos.getY() - currentPos.getY());
                 Vector2D v = new Vector2D(dx, 0);
                 if( toManel.asVector().getX() == 0)
-                if( dx != 0)
-                move(Direction.forVector(v));
+                        if( dx != 0)
+                                move(Direction.forVector(v));
                 else
-                if( dy != 0 )
-                move(Direction.forVector(new Vector2D(0, dy)));
+                        if( dy != 0 )
+                                move(Direction.forVector(new Vector2D(0, dy)));
         }
 
         @Override
