@@ -5,25 +5,26 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Predicate;
+import java.util.Map;
+import java.util.HashMap;
 
 import objects.GameElement;
-import objects.interfaces.Movable;
+import objects.attackers.entities.Manel;
 import objects.interfaces.WinVerifier;
 import objects.staticElements.Floor;
 import pt.iscte.poo.gui.ImageGUI;
-import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.FileUtil;
 import pt.iscte.poo.utils.Point2D;
 
 public class Room {
 
-        public static final Point2D TERMINATE_POSITION = new Point2D(-1,-1);
         private static final String defaultDir = "rooms/default/";
         private String roomsDir;
 
+        private final Map<Point2D,List<GameElement>> map = new HashMap<>();
         private final List<GameElement> gameElements = new ArrayList<>();
         private final List<GameElement> toAdd = new ArrayList<>();
+        private final List<GameElement> toRemove = new ArrayList<>();
 
         private int level = -1;
         private String nextRoomPath;
@@ -48,8 +49,19 @@ public class Room {
                 }
         }
 
+        public Map<Point2D,List<GameElement>> getRoomMap(){
+                return map;
+        }
+
         public List<GameElement> getElements(){
                 return gameElements;
+        }
+
+        public List<GameElement> getElementsAt(Point2D... position){
+                List<GameElement> elements = new ArrayList<>();
+                for( Point2D pos : position)
+                        elements.addAll(map.get(pos));
+                return elements;
         }
 
         public int getLevel() {
@@ -90,8 +102,13 @@ public class Room {
 
         private void loadFrom(File file) {
                 int width = engine.getWidth();
+                int height = engine.getHeight();
                 int y = -1;
                 try(Scanner scanner = new Scanner(file)){
+                        addBoundaryPoints(-1, width, -1, true);
+                        addBoundaryPoints(-1, width, height, true);
+                        addBoundaryPoints(-1, height, -1, false);
+                        addBoundaryPoints(-1, height, width, false);
                         while (scanner.hasNextLine()) {
                                 String linha = scanner.nextLine();
 
@@ -117,28 +134,41 @@ public class Room {
                                         c = ' ';
 
                                         Point2D position = new Point2D(i,y);
+                                        List<GameElement> list = new ArrayList<>();
+                                        map.put(position,list);
                                         GameElement element = GameElement.createFrom(c,position);
-                                        ImageGUI.getInstance().addImage(new Floor(position));
-
-                                        if ( "Floor".equals(element.getName())) continue;
-
                                         ImageGUI.getInstance().addImage(element);
 
-                                        if(element instanceof WinVerifier)
-                                        winElement = (WinVerifier)element;
+                                        if ( !(element instanceof Floor) )
+                                                ImageGUI.getInstance().addImage(new Floor(position));
 
+                                        if(element instanceof WinVerifier)
+                                                winElement = (WinVerifier)element;
+                                        if( !(element instanceof Manel) )
+                                                list.add(element);
                                         gameElements.add(element);
                                 }
                                 y++;
                         }
-                        if( y != engine.getHeight() ) {
+                        if( y != height ) {
                                 engine.abort();
                         }
-
                         scanner.close();
                 } catch( FileNotFoundException e){
                         System.err.println("Error loading file: "+file.getName());
                         loadFrom(FileUtil.askUserFile());
+                }
+        }
+
+        private void addBoundaryPoints(int start, int end, int fixedCoordinate, boolean isHorizontal) {
+                for (int i = start; i <= end; i++) {
+                        Point2D position;
+                        if (isHorizontal) {
+                                position = new Point2D(i, fixedCoordinate);
+                        } else {
+                                position = new Point2D(fixedCoordinate, i);
+                        }
+                        map.put(position, new ArrayList<>());
                 }
         }
 
@@ -152,15 +182,12 @@ public class Room {
                 }
         }
 
-        public void moveEntities() {
-                for(GameElement element : gameElements)
-                if ( element instanceof Movable){
-                        Movable movable = ((Movable)element);
-                        if(movable.isFallingAt(element.getPosition()))
-                        movable.move(Direction.DOWN);
+        public void processTick(){
+                for ( GameElement element : gameElements )
+                        if( isWithinBounds(element.getPosition()) )
+                                element.update();
                         else
-                        movable.move();
-                }
+                                toRemove.add(element);
                 update();
         }
 
@@ -169,67 +196,56 @@ public class Room {
                 clearInvalid();
         }
 
-        public void interactWith(GameElement gameElement, Point2D position) {
-                if( gameElement == null || !isWithinBounds(position) ) return;
-
-                for( GameElement element : gameElements)
-                if( !(gameElement.equals(element)) )
-                element.interact(gameElement,position);
-        }
-
         private void mergeNewElements(){
-                toAdd.removeIf(element->{
-                        if(element != null && gameElements.add(element))
-                        ImageGUI.getInstance().addImage(element);
-                        return true;
-                });
+                for( GameElement element : toAdd )
+                        if( gameElements.add(element) && map.get(element.getPosition()).add(element) )
+                                ImageGUI.getInstance().addImage(element);
+                toAdd.clear();
         }
 
         private void clearInvalid() {
-                gameElements.removeIf(element->{
-                        if( element == null || TERMINATE_POSITION.equals(element.getPosition()) ) {
-                                ImageGUI.getInstance().removeImage(element);
-                                return true;
-                        }
-                        return false;
-                });
+                for( GameElement element : toRemove  ){
+                        gameElements.remove(element);
+                        map.get(element.getPosition()).remove(element);
+                }
+                ImageGUI.getInstance().removeImages(toRemove);
+                toRemove.clear();
         }
 
         public void addElement(GameElement element) {
                 if ( element == null || !isWithinBounds(element.getPosition()) )
-                return;
+                        return;
                 toAdd.add(element);
         }
 
-        public void removeIf(Predicate<GameElement> predicate) {
-                for( GameElement element:gameElements)
-                if( predicate.test(element) )
-                element.terminate();
+        public void removeElement(GameElement element) {
+                if ( element == null || !isWithinBounds(element.getPosition()) )
+                        return;
+                toRemove.add(element);
         }
 
         public boolean canTranspose(GameElement element,Point2D position) {
                 if( element == null  || !isWithinBounds(position) ) return false;
 
-                for(GameElement e : gameElements)
-                if( !e.equals(element) &&
-                e.getPosition().equals(position) && !e.canBeTransposedBy(element) )
-                return false;
+                for( GameElement e : map.get(position) )
+                        if( !e.equals(element) && !e.canBeTransposedBy(element) )
+                                return false;
 
                 return true;
         }
 
         public boolean hasElement( Class<? extends GameElement> clx, Point2D position) {
                 if( !isWithinBounds(position) ) return false;
-                for(GameElement element : gameElements)
-                if ( position.equals(element.getPosition()) && element.getClass().equals(clx) )
-                return true;
+                for( GameElement element : map.get(position) )
+                        if( element.getClass().equals(clx) )
+                                return true;
                 return false;
         }
 
         public boolean isWithinBounds(Point2D position) {
                 return position != null &&
-                position.getX()>=0 && position.getX()<engine.getWidth() &&
-                position.getY()>=0 && position.getY()<engine.getHeight();
+                        position.getX()>=0 && position.getX()<engine.getWidth() &&
+                        position.getY()>=0 && position.getY()<engine.getHeight();
         }
 
 

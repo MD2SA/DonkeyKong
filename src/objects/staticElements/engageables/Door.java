@@ -24,38 +24,38 @@ public class Door extends StaticElement implements WinVerifier {
 		return isOpen?"DoorOpen":"DoorClosed";
 	}
 
-    @Override
-    public boolean canBeTransposedBy(GameElement element){
-        if ( element instanceof Manel )
-            return isOpen;
-        return super.canBeTransposedBy(element);
-    }
+        @Override
+        public boolean canBeTransposedBy(GameElement element){
+                if ( element instanceof Manel )
+                        return isOpen;
+                return super.canBeTransposedBy(element);
+        }
 
-    @Override
-	public boolean isWon() {
-		return won;
-	}
-    protected boolean isOpen(){
-        return isOpen;
-    }
+        @Override
+        public boolean isWon() {
+                return won;
+        }
+        protected boolean isOpen(){
+                return isOpen;
+        }
 
-    public int getLevel(){
-        return level;
-    }
+        public int getLevel(){
+                return level;
+        }
 
 	protected void openDoor(Manel manel) {
 		isOpen = true;
-        ImageGUI.getInstance().setStatusMessage("JumpMan opened the door!");
+                ImageGUI.getInstance().setStatusMessage("JumpMan opened the door!");
 	}
 
-	@Override
-	public void interact(GameElement entity,Point2D position) {
-        if ( !(entity instanceof Manel) )
-            return;
-        if(isOpen && getPosition().equals(entity.getPosition()) )
-        	won = true;
-        else if ( getPosition().equals(position))
-        	openDoor((Manel)entity);
-	}
+        @Override
+        public void interact(GameElement entity,Point2D position) {
+                if ( !(entity instanceof Manel) )
+                        return;
+                if(isOpen && getPosition().equals(entity.getPosition()) )
+                        won = true;
+                else if ( getPosition().equals(position))
+                        openDoor((Manel)entity);
+        }
 
 }
