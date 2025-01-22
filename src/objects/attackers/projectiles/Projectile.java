@@ -25,12 +25,12 @@ public class Projectile extends MovableAttacker {
 			attack((Attackable)element);
 	}
 
-    @Override
-    public void attack(Attackable element){
-        if ( element == null ) return;
-        element.attacked(this);
-        terminate();
-    }
+        @Override
+        public void attack(Attackable element){
+                if ( element == null ) return;
+                element.attacked(this);
+                terminate();
+        }
 
 	@Override
 	public void move(Direction direction) {}
@@ -38,7 +38,7 @@ public class Projectile extends MovableAttacker {
 	@Override
 	public void move() {
 		setPosition(getPosition().plus(direction.asVector()));
-		room.interactWith(this, getPosition());
+                room.getElementsAt(getPosition()).forEach(e->interact(e,getPosition()));
 	}
 
 	@Override
