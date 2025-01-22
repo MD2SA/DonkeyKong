@@ -33,11 +33,7 @@ public class Bomb extends Catchable implements Usable {
 
         @Override
         public void update(){
-                room.getElementsAt(
-                        neighbours.toArray(new Point2D[0]))
-                        .forEach(
-                                e->interact(e,e.getPosition())
-                        );
+                explode();
         }
 
         @Override
@@ -54,25 +50,30 @@ public class Bomb extends Catchable implements Usable {
         @Override
         protected boolean actionBy(Entity element){
                 if(!dropped)
-                return catchedBy(element);
+                        return catchedBy(element);
                 else
-                return explode();
+                        return explode();
         }
 
         private boolean catchedBy(Entity element){
                 if( !getPosition().equals(element.getPosition()) || !(element instanceof Manel) )
-                return false;
+                        return false;
                 return ((Manel)element).addToInventory(this);
         }
 
         private boolean explode(){
                 if( !(isCooked()) )
-                return false;
+                        return false;
                 //animation
                 neighbours.forEach(p->new Explosion(p));
 
-                room.removeIf(e->neighbours.contains(e.getPosition()) &&
-                        !(e instanceof StaticElement) );
+                room.getElementsAt(neighbours.toArray(new Point2D[0]))
+                        .forEach(e->{
+                                if( !(e instanceof StaticElement) )
+                                        e.terminate();
+                        });
+                // room.removeIf(e->neighbours.contains(e.getPosition()) &&
+                //         !(e instanceof StaticElement) );
                 return true;
         }
 

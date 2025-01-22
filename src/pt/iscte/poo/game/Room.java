@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.function.Predicate;
 
 import objects.GameElement;
-import objects.attackers.entities.*;
+import objects.attackers.entities.Manel;
+import objects.staticElements.engageables.Door;
 import objects.interfaces.WinVerifier;
 import objects.staticElements.Floor;
 import pt.iscte.poo.gui.ImageGUI;
@@ -146,8 +147,8 @@ public class Room {
 
                                         if(element instanceof WinVerifier)
                                                 winElement = (WinVerifier)element;
-
-                                        list.add(element);
+                                        if( !(element instanceof Manel) )
+                                                list.add(element);
                                         gameElements.add(element);
                                 }
                                 y++;
@@ -198,7 +199,7 @@ public class Room {
                 // map.forEach((k,v)->{
                 //         if(v != null & v.size() != 0){
                 //                 for( GameElement element : v) {
-                //                         if( element instanceof Entity)
+                //                         if( element instanceof Door)
                 //                                 System.out.println(k+","+v);
                 //                 }
                 //         }
@@ -235,21 +236,11 @@ public class Room {
                 toRemove.add(element);
         }
 
-        public void removeIf(Predicate<GameElement> predicate) {
-                for( GameElement element:gameElements)
-                        if( predicate.test(element) )
-                                element.terminate();
-        }
-
         public boolean canTranspose(GameElement element,Point2D position) {
                 if( element == null  || !isWithinBounds(position) ) return false;
 
-                // for( GameElement e : map.get(position) )
-                //         if( !e.equals(element) && !e.canBeTransposedBy(element) )
-                //                 return false;
-                for(GameElement e : gameElements)
-                        if( !e.equals(element) &&
-                            e.getPosition().equals(position) && !e.canBeTransposedBy(element) )
+                for( GameElement e : map.get(position) )
+                        if( !e.equals(element) && !e.canBeTransposedBy(element) )
                                 return false;
 
                 return true;
@@ -257,8 +248,8 @@ public class Room {
 
         public boolean hasElement( Class<? extends GameElement> clx, Point2D position) {
                 if( !isWithinBounds(position) ) return false;
-                for(GameElement element : gameElements)
-                        if ( position.equals(element.getPosition()) && element.getClass().equals(clx) )
+                for( GameElement element : map.get(position) )
+                        if( element.getClass().equals(clx) )
                                 return true;
                 return false;
         }
