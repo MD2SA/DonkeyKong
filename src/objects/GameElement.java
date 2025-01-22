@@ -75,7 +75,6 @@ public abstract class GameElement implements ImageTile, Interactable{
 
         public void terminate(){
                 room.removeElement(this);
-                // setPosition(Room.TERMINATE_POSITION);
         }
 
         public abstract void interact(GameElement element, Point2D position);

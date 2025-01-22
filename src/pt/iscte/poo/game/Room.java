@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.function.Predicate;
 
 import objects.GameElement;
 import objects.attackers.entities.Manel;
-import objects.staticElements.engageables.Door;
 import objects.interfaces.WinVerifier;
 import objects.staticElements.Floor;
 import pt.iscte.poo.gui.ImageGUI;
@@ -20,7 +18,6 @@ import pt.iscte.poo.utils.Point2D;
 
 public class Room {
 
-        public static final Point2D TERMINATE_POSITION = new Point2D(-1,-1);
         private static final String defaultDir = "rooms/default/";
         private String roomsDir;
 
@@ -195,15 +192,6 @@ public class Room {
         }
 
         public void update(){
-                // System.out.println("\n\n\n");
-                // map.forEach((k,v)->{
-                //         if(v != null & v.size() != 0){
-                //                 for( GameElement element : v) {
-                //                         if( element instanceof Door)
-                //                                 System.out.println(k+","+v);
-                //                 }
-                //         }
-                // });
                 mergeNewElements();
                 clearInvalid();
         }

@@ -72,8 +72,6 @@ public class Bomb extends Catchable implements Usable {
                                 if( !(e instanceof StaticElement) )
                                         e.terminate();
                         });
-                // room.removeIf(e->neighbours.contains(e.getPosition()) &&
-                //         !(e instanceof StaticElement) );
                 return true;
         }
 
