@@ -1,4 +1,7 @@
 # Donkey Kong 2D - Java Game
+<div align="center">
+  <img src="images/GameExample.png" alt="Game Preview" width="400">
+</div>
 
 ## Description
 
@@ -56,12 +59,18 @@ Here are the commands you can use during gameplay:
     ```bash
     .\run.ps1
 
+> **Note:** You can load custom rooms by providing the path to your rooms folder as an argument when running the game.
+
 # 📋 Task List - DonkeyKong
 
 ## 🛠️ Logic and Interaction
 - [ ] Improve game interaction logic
-- [ ] Fix existing bugs in game mechanics
-  - [ ] Bomb not exploding alone
+  - [x] All interactions are guaranteed to complete in O(n) time or better.
+  - [ ] Reduce duplicate memory
+    - [ ] Remove main List and leave only HashMap
+- [x] Fix found bugs in game mechanics
+  - [x] Bomb not exploding alone
+  - [x] Trap with weird activation
 - [ ] Refactor gravity logic for more realistic behavior
 
 ## 🚀 New Features
