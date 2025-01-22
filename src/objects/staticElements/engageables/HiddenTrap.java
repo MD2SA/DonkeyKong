@@ -17,9 +17,10 @@ public class HiddenTrap extends Trap {
 	}
 
 	@Override
-	protected void activateTrap() {
-		hidden = false;
-		super.activateTrap();
+	public boolean activateTrap() {
+                boolean active = super.activateTrap();
+		hidden = hidden && !active;
+                return active;
 	}
 
 }

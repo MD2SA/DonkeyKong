@@ -16,7 +16,7 @@ public abstract class Catchable extends GameElement {
 
         @Override
         public void update(){
-                room.getRoomMap().get(getPosition()).forEach(e->interact(e,e.getPosition()));
+                room.getElementsAt(getPosition()).forEach(e->interact(e,e.getPosition()));
         }
 
         @Override

@@ -33,6 +33,7 @@ public class Bomb extends Catchable implements Usable {
 
         @Override
         public void update(){
+                room.getElementsAt(getPosition()).forEach(e->interact(e,e.getPosition()));
         }
 
         @Override

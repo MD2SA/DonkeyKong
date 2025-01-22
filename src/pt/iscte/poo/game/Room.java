@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.function.Predicate;
 
 import objects.GameElement;
+import objects.attackers.entities.*;
 import objects.interfaces.WinVerifier;
 import objects.staticElements.Floor;
 import pt.iscte.poo.gui.ImageGUI;
@@ -58,8 +59,11 @@ public class Room {
                 return gameElements;
         }
 
-        public List<GameElement> getElementsAt(Point2D position){
-                return map.get(position);
+        public List<GameElement> getElementsAt(Point2D... position){
+                List<GameElement> elements = new ArrayList<>();
+                for( Point2D pos : position)
+                        elements.addAll(map.get(pos));
+                return elements;
         }
 
         public int getLevel() {
@@ -182,21 +186,25 @@ public class Room {
 
         public void processTick(){
                 for ( GameElement element : gameElements )
-                        element.update();
+                        if( isWithinBounds(element.getPosition()) )
+                                element.update();
+                        else
+                                toRemove.add(element);
                 update();
         }
 
         public void update(){
-                // manageInteractions();
+                // System.out.println("\n\n\n");
+                // map.forEach((k,v)->{
+                //         if(v != null & v.size() != 0){
+                //                 for( GameElement element : v) {
+                //                         if( element instanceof Entity)
+                //                                 System.out.println(k+","+v);
+                //                 }
+                //         }
+                // });
                 mergeNewElements();
                 clearInvalid();
-        }
-
-        public void interactionOf(GameElement element, Point2D position) {
-                if( element == null || !isWithinBounds(position) ) return ;
-                for( GameElement e : map.get(position) )
-                        if( !element.equals(e) )
-                                e.interact(element, position);
         }
 
         private void mergeNewElements(){
