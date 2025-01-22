@@ -12,6 +12,7 @@ import objects.interfaces.Usable;
 import objects.items.Catchable;
 import objects.items.unstackables.*;
 import pt.iscte.poo.game.GameEngine;
+import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.Point2D;
 import pt.iscte.poo.gui.ImageGUI;
 
@@ -41,6 +42,14 @@ public class Manel extends Entity {
 
         @Override
         public void move() { /*JumpMan does not have a default movement only custom*/ }
+
+        @Override
+        public void move(Direction direction){
+                if( isFallingAt(getPosition()) )
+                        move(Direction.DOWN);
+                else
+                        move(direction);
+        }
 
         @Override
         public void terminate() {
