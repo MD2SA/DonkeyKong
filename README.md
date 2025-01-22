@@ -116,3 +116,8 @@ Here are the commands you can use during gameplay:
 - [ ] Implement a level editor for users to create their own maps
 - [ ] Add achievements or unlockable content
 
+# UML DIAGRAM
+
+<div align="center">
+  <img src="images/UML.png" alt="Game Preview" width="1000">
+</div>
