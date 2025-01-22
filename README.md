@@ -72,6 +72,7 @@ Here are the commands you can use during gameplay:
   - [x] Bomb not exploding alone
   - [x] Trap with weird activation
 - [ ] Refactor gravity logic for more realistic behavior
+- [ ] Implement pathfinding system for entities to find Manel
 
 ## 🚀 New Features
 - [ ] Add new levels or maps
