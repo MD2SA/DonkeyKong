@@ -18,6 +18,7 @@ import objects.staticElements.engageables.LockedDoor;
 import objects.staticElements.engageables.Princess;
 import objects.staticElements.engageables.Trap;
 import pt.iscte.poo.game.GameEngine;
+import pt.iscte.poo.game.EntityManager;
 import pt.iscte.poo.game.Room;
 import pt.iscte.poo.gui.ImageTile;
 import pt.iscte.poo.utils.Point2D;
@@ -54,12 +55,15 @@ public abstract class GameElement implements ImageTile, Interactable{
         public Point2D getPosition() {
                 return position;
         }
+        protected EntityManager getEManager(){
+                return room.getEntityManager();
+        }
 
         // the day this throws a concurrency exception is because an interaction is changing a element from place
         protected void setPosition(Point2D position) {
-                room.getRoomMap().get(getPosition()).remove(this);
+                getEManager().getRoomMap().get(getPosition()).remove(this);
                 this.position = position;
-                room.getRoomMap().get(position).add(this);
+                getEManager().getRoomMap().get(position).add(this);
         }
 
         @Override
@@ -74,7 +78,7 @@ public abstract class GameElement implements ImageTile, Interactable{
         public abstract void update();
 
         public void terminate(){
-                room.removeElement(this);
+                getEManager().removeElement(this);
         }
 
         public abstract void interact(GameElement element, Point2D position);

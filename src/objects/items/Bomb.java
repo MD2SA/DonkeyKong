@@ -44,7 +44,7 @@ public class Bomb extends Catchable implements Usable {
                 }
 
                 // if is cooked and timer hasn't run out but there is any movable there explode
-                List<GameElement> gameElements = room.getElementsAt(neighbours.toArray(new Point2D[0]));
+                List<GameElement> gameElements = getEManager().getElementsAt(neighbours.toArray(new Point2D[0]));
                 for( GameElement element : gameElements ) {
                         if( element instanceof Movable ){
                                 explode();
@@ -82,7 +82,7 @@ public class Bomb extends Catchable implements Usable {
                 //animation
                 neighbours.forEach(p->new Explosion(p));
 
-                room.getElementsAt(neighbours.toArray(new Point2D[0]))
+                getEManager().getElementsAt(neighbours.toArray(new Point2D[0]))
                         .forEach(e->{
                                 if( !(e instanceof StaticElement) )
                                         e.terminate();
@@ -104,7 +104,7 @@ public class Bomb extends Catchable implements Usable {
                 setPosition(entity.getPosition());
                 this.neighbours = getPosition().getWideNeighbourhoodPoints();
                 this.neighbours.add(getPosition());
-                room.addElement(this);
+                getEManager().addElement(this);
 
                 clock = GameEngine.getInstance().getTicks();
                 dropped = true;

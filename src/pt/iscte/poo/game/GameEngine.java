@@ -8,9 +8,7 @@ import pt.iscte.poo.PlayerScore;
 import pt.iscte.poo.gui.ImageGUI;
 import pt.iscte.poo.observer.Observed;
 import pt.iscte.poo.observer.Observer;
-import pt.iscte.poo.utils.Direction;
-import pt.iscte.poo.utils.FileUtil;
-import pt.iscte.poo.utils.Time;
+import pt.iscte.poo.utils.*;
 
 public class GameEngine implements Observer {
 
@@ -122,8 +120,6 @@ public class GameEngine implements Observer {
 
         private void processTick() {
                 room.processTick();
-                if (room.isWon())
-                        room.nextLevel();
                 lastTickProcessed++;
         }
 
@@ -135,6 +131,11 @@ public class GameEngine implements Observer {
                 }
         }
 
+        public boolean isWithinBounds(Point2D position) {
+                return position != null &&
+                        position.getX()>=0 && position.getX()<getWidth() &&
+                        position.getY()>=0 && position.getY()<getHeight();
+        }
 
 
 

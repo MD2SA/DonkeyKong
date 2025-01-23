@@ -38,7 +38,7 @@ public class Projectile extends MovableAttacker {
 	@Override
 	public void move() {
 		setPosition(getPosition().plus(direction.asVector()));
-                room.getElementsAt(getPosition()).forEach(e->interact(e,getPosition()));
+                getEManager().getElementsAt(getPosition()).forEach(e->interact(e,getPosition()));
 	}
 
 	@Override
