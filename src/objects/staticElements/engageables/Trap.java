@@ -28,7 +28,7 @@ public class Trap extends StaticElement implements Attacker {
         }
 
 	protected boolean activateTrap() {
-		List<GameElement> gameElements = room.getElementsAt(neighbours.toArray(new Point2D[0]));
+		List<GameElement> gameElements = getEManager().getElementsAt(neighbours.toArray(new Point2D[0]));
 
                 boolean found = false;
                 for( GameElement element : gameElements ){
