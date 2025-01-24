@@ -9,6 +9,8 @@ import objects.attackers.MovableAttacker;
 import objects.interfaces.Attackable;
 import objects.interfaces.Attacker;
 import objects.staticElements.Stairs;
+
+import pt.iscte.poo.game.GameEngine;
 import pt.iscte.poo.gui.ImageGUI;
 import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.Point2D;
@@ -76,9 +78,9 @@ public abstract class Entity extends MovableAttacker implements Attackable {
 
         @Override
         public boolean isFallingAt(Point2D position) {
-                boolean hasSupport = !room.canTranspose(this, position.plus(Direction.DOWN.asVector()));
-                return !hasSupport && !canFly && (!room.hasElement(Stairs.class, position) &&
-                        !room.hasElement(Stairs.class, position.plus(Direction.DOWN.asVector())));
+                boolean hasSupport = !getEManager().canTranspose(this, position.plus(Direction.DOWN.asVector()));
+                return !hasSupport && !canFly && (!getEManager().hasElement(Stairs.class, position) &&
+                        !getEManager().hasElement(Stairs.class, position.plus(Direction.DOWN.asVector())));
         }
 
         @Override
@@ -92,7 +94,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
 
                 // if same pos interact with position
                 if ( currentPos.equals(manelPos) ){
-                        room.getElementsAt(manelPos).forEach(e ->{
+                        getEManager().getElementsAt(manelPos).forEach(e ->{
                                 if( !this.equals(e) )
                                         e.interact(this, manelPos);
                         });
@@ -131,7 +133,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 if (canMove(direction))
                         setPosition(newPosition);
 
-                room.getElementsAt(newPosition).forEach(e ->{
+                getEManager().getElementsAt(newPosition).forEach(e ->{
                         if( !this.equals(e) ){
                                 e.interact(this, newPosition);
                         }
@@ -142,11 +144,11 @@ public abstract class Entity extends MovableAttacker implements Attackable {
         public boolean canMove(Direction direction) {
                 Point2D newPosition = getPosition().plus(direction.asVector());
 
-                boolean isValidPosition = room.isWithinBounds(newPosition);
-                boolean canTranspose = room.canTranspose(this, newPosition);
+                boolean isValidPosition = GameEngine.getInstance().isWithinBounds(newPosition);
+                boolean canTranspose = getEManager().canTranspose(this, newPosition);
 
                 if (Direction.UP.equals(direction))
-                return isValidPosition && canTranspose && (canFly || room.hasElement(Stairs.class, getPosition()));
+                return isValidPosition && canTranspose && (canFly || getEManager().hasElement(Stairs.class, getPosition()));
 
                 return isValidPosition && canTranspose;
         }

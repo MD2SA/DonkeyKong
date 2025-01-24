@@ -17,7 +17,7 @@ public class DonkeyKong extends Entity {
 
     public void throwBanana(){
    	    if ( Math.random()<0.3)
-   		    room.addElement(new Banana(getPosition(),Direction.DOWN));
+   		    getEManager().addElement(new Banana(getPosition(),Direction.DOWN));
     }
 
     @Override
