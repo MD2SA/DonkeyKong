@@ -1,6 +1,5 @@
 package pt.iscte.poo.game;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -10,7 +9,6 @@ import objects.GameElement;
 import objects.interfaces.WinVerifier;
 import objects.attackers.entities.Manel;
 import objects.staticElements.Floor;
-import objects.items.Bomb;
 import pt.iscte.poo.utils.Point2D;
 import pt.iscte.poo.gui.ImageGUI;
 
@@ -19,7 +17,7 @@ public class EntityManager {
         private final GameEngine engine = GameEngine.getInstance();
 
         private final Map<Point2D, List<GameElement>> map = new HashMap<>();
-        private final List<GameElement> gameElements = new ArrayList<>();
+        private final Map<Point2D, List<GameElement>> movers = new HashMap<>();
         private final List<GameElement> toAdd = new ArrayList<>();
         private final List<GameElement> toRemove = new ArrayList<>();
 
@@ -32,10 +30,6 @@ public class EntityManager {
         // -----------GETTERS------------
         public Map<Point2D, List<GameElement>> getRoomMap() {
                 return map;
-        }
-
-        public List<GameElement> getElements() {
-                return gameElements;
         }
 
         public List<GameElement> getElementsAt(Point2D... position) {
@@ -56,15 +50,17 @@ public class EntityManager {
         // -----------Updates------------
         public void update() {
                 mergeNewElements();
+                moveAll();
                 clearInvalid();
         }
 
         public void processTick() {
-                for (GameElement element : gameElements)
-                        if (engine.isWithinBounds(element.getPosition()))
-                                element.update();
-                        else
-                                toRemove.add(element);
+                for( Map.Entry<Point2D,List<GameElement>> entry : map.entrySet() )
+                        for (GameElement element : entry.getValue() )
+                                if (engine.isWithinBounds(element.getPosition()))
+                                        element.update();
+                                else
+                                        toRemove.add(element);
                 update();
         }
 
@@ -81,9 +77,25 @@ public class EntityManager {
                 toRemove.add(element);
         }
 
+        public void move(Point2D oldPosition, GameElement element){
+                if( element == null || !engine.isWithinBounds(oldPosition) ) return;
+                movers.putIfAbsent(oldPosition, new ArrayList<>());
+                movers.get(oldPosition).add(element);
+        }
+
+        private void moveAll() {
+                for( Map.Entry<Point2D, List<GameElement>> entry : movers.entrySet() ) {
+                        map.get(entry.getKey()).removeAll(entry.getValue());
+                        entry.getValue().forEach(element->{
+                                map.get(element.getPosition()).add(element);
+                        });
+                }
+                movers.clear();
+        }
+
         private void mergeNewElements() {
                 for (GameElement element : toAdd)
-                        if (gameElements.add(element) && map.get(element.getPosition()).add(element))
+                        if ( map.get(element.getPosition()).add(element) )
                                 ImageGUI.getInstance().addImage(element);
 
                 toAdd.clear();
@@ -93,7 +105,6 @@ public class EntityManager {
         //still need to figure out why
         private void clearInvalid() {
                 for( GameElement element : toRemove  ){
-                        gameElements.remove(element);
                         map.get(element.getPosition()).remove(element);
                 }
                 ImageGUI.getInstance().removeImages(toRemove);
@@ -123,7 +134,7 @@ public class EntityManager {
 
         public void cleanGame() {
                 loadMap();
-                gameElements.clear();
+                movers.clear();
                 toAdd.clear();
                 toRemove.clear();
                 ImageGUI.getInstance().clearImages();
@@ -144,6 +155,5 @@ public class EntityManager {
                         winElement = (WinVerifier) element;
                 if (!(element instanceof Manel))
                         map.get(element.getPosition()).add(element);
-                gameElements.add(element);
         }
 }
