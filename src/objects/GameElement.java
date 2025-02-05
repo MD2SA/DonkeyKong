@@ -61,9 +61,10 @@ public abstract class GameElement implements ImageTile, Interactable{
 
         // the day this throws a concurrency exception is because an interaction is changing a element from place
         protected void setPosition(Point2D position) {
-                getEManager().getRoomMap().get(getPosition()).remove(this);
+                // getEManager().getRoomMap().get(getPosition()).remove(this);
+                getEManager().move(getPosition(),this);
                 this.position = position;
-                getEManager().getRoomMap().get(position).add(this);
+                // getEManager().getRoomMap().get(position).add(this);
         }
 
         @Override
