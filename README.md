@@ -70,9 +70,11 @@ Here are the commands you can use during gameplay:
     - [x] Remove main List and leave only HashMap
 - [x] Fix found bugs in game mechanics
   - [x] Bomb not exploding alone
+  - [ ] Stacking bombs in the same place
   - [x] Trap with weird activation
-- [ ] Refactor gravity logic for more realistic behavior
+- [ ] Refactor gravity logic for more realistic behavior ( do not allow to move while falling )
 - [ ] Implement pathfinding system for entities to find Manel
+- [ ] Consider enemies not attacking each other nor trigger traps
 
 ## 🚀 New Features
 - [ ] Add new levels or maps
@@ -80,7 +82,7 @@ Here are the commands you can use during gameplay:
 - [ ] Implement power-ups or collectibles
 - [ ] Improve scoring system
   - [ ]  Show the leaderboard in a specific room
-  - [ ]  Add points to each run
+  - [ ]  Add points to each run and kill
 - [ ] Implement a visual inventory
 - [ ] Implement new alternative movement controls in addition to the arrow keys, such as WASD for gamers and HJKL for Vim users.
 - [ ] New movement
@@ -95,9 +97,10 @@ Here are the commands you can use during gameplay:
 ## 🎨 Design and UI
 - [ ] Improve visual feedback for player actions (e.g., sound effects, visual cues)
 - [ ] Make the game window resizable
+  - [ ] Ensure the game scales correctly when resized
 - [ ] Create better UI for entire window
 - [ ] Add a pause menu with options (e.g., restart, exit)
-- [ ] Ensure the game scales correctly when resized
+- [ ] Create inventory tab
 
 ## 📚 Documentation
 - [x] Write a `README.md` with:
@@ -106,6 +109,7 @@ Here are the commands you can use during gameplay:
   - [x] Controls and gameplay guide
 - [ ] Add in-code comments for key functions and modules
 - [ ] Create a flowchart for game mechanics and interactions
+- [ ] Update UML
 
 ## 🧹 Optimization and Maintenance
 - [ ] Optimize game performance (e.g., reduce lag, improve FPS)
