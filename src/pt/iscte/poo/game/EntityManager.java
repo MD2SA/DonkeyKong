@@ -101,13 +101,11 @@ public class EntityManager {
                 toAdd.clear();
         }
 
-        //if i try to apply the same logic as in mergeNewElements it return false on remove of gameELements for some reason
-        //still need to figure out why
         private void clearInvalid() {
                 for( GameElement element : toRemove  ){
-                        map.get(element.getPosition()).remove(element);
+                        if( map.get(element.getPosition()).remove(element) )
+                                ImageGUI.getInstance().removeImage(element);
                 }
-                ImageGUI.getInstance().removeImages(toRemove);
                 toRemove.clear();
         }
 
