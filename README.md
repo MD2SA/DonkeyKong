@@ -66,8 +66,8 @@ Here are the commands you can use during gameplay:
 ## 🛠️ Logic and Interaction
 - [ ] Improve game interaction logic
   - [x] All interactions are guaranteed to complete in O(n) time or better.
-  - [ ] Reduce duplicate memory
-    - [ ] Remove main List and leave only HashMap
+  - [x] Reduce duplicate memory
+    - [x] Remove main List and leave only HashMap
 - [x] Fix found bugs in game mechanics
   - [x] Bomb not exploding alone
   - [x] Trap with weird activation
@@ -120,5 +120,5 @@ Here are the commands you can use during gameplay:
 # UML DIAGRAM
 
 <div align="center">
-  <img src="images/UML.png" alt="Game Preview" width="1000">
+  <img src="images/UML.png" alt="UML DIAGRAM" width="1000">
 </div>
