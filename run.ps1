@@ -10,13 +10,13 @@ javac -d bin -cp bin -sourcepath src $(Get-ChildItem -Recurse -Path src -Filter 
 # Checks if previous commands had errors
 if ($?) {
 
-    Write-Host "Compilação bem-sucedida!" -BackgroundColor Green -ForegroundColor White
+    Write-Host "Successful Compilation" -ForegroundColor Green
 
     # Execute java project with args of this script
     java -cp bin pt.iscte.poo.game.Main $args
 } else {
 
-    Write-Host "Erro na compilação." -BackgroundColor Red -ForegroundColor White
+    Write-Host "Compilation Error" -ForegroundColor Red
 
 }
 
