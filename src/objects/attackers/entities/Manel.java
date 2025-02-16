@@ -103,10 +103,11 @@ public class Manel extends Entity {
                 List<Catchable> items = stackableItems.get(c);
                 if (items == null || items.isEmpty())
                         return;
-                Catchable item = items.removeFirst();
+                Catchable item = items.getFirst();
                 if (item instanceof Usable){
                         ImageGUI.getInstance().setStatusMessage("JumpMan used a "+c.getName()+"!");
-                        ((Usable) item).usedBy(this);
+                        if( ((Usable) item).usedBy(this) )
+                                items.removeFirst();
                 }
         }
 
