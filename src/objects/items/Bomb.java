@@ -100,7 +100,12 @@ public class Bomb extends Catchable implements Usable {
 
         @Override
         public boolean usedBy(Entity entity){
-                if ( entity == null ) return false;
+                if ( entity == null )
+                        return false;
+                //entity pos is pos to drop bomb. Only one bomb in each pos
+                if ( super.getEManager().hasElement(this.getClass(), entity.getPosition()) )
+                        return false;
+
                 setPosition(entity.getPosition());
                 this.neighbours = getPosition().getWideNeighbourhoodPoints();
                 this.neighbours.add(getPosition());
