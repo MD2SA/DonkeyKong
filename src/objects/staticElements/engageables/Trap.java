@@ -41,7 +41,7 @@ public class Trap extends StaticElement implements Attacker {
                 if( found ) {
                         Point2D pos = getPosition();
                         for( Point2D position : neighbours )
-                        new Fire(pos.directionTo(position),position);
+                                new Fire(pos.directionTo(position),position);
                 }
                 return found;
         }
@@ -49,14 +49,14 @@ public class Trap extends StaticElement implements Attacker {
         @Override
         public void interact(GameElement element,Point2D position){
                 if ( !(element instanceof Manel) || !neighbours.contains(element.getPosition()) )
-                return;
+                        return;
                 activateTrap();
         }
 
 	@Override
 	public void attack(Attackable element) {
 		if( element != null )
-		element.attacked(this);
+		        element.attacked(this);
 	}
 
 	@Override

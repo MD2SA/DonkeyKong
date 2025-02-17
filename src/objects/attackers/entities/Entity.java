@@ -87,6 +87,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
         public void move() {
                 if ( isFallingAt(getPosition()) ) {
                         move(Direction.DOWN);
+                        return;
                 }
                 int level = room.getLevel();
                 Point2D currentPos = getPosition();
@@ -127,6 +128,9 @@ public abstract class Entity extends MovableAttacker implements Attackable {
 
         @Override
         public void move(Direction direction) {
+                // if( isFallingAt(getPosition()) )
+                //         direction = Direction.DOWN;
+
                 Point2D newPosition = getPosition().plus(direction.asVector());
                 looking = lookingDirection(direction);
 
@@ -148,7 +152,7 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 boolean canTranspose = getEManager().canTranspose(this, newPosition);
 
                 if (Direction.UP.equals(direction))
-                return isValidPosition && canTranspose && (canFly || getEManager().hasElement(Stairs.class, getPosition()));
+                        return isValidPosition && canTranspose && (canFly || getEManager().hasElement(Stairs.class, getPosition()));
 
                 return isValidPosition && canTranspose;
         }

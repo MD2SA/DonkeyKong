@@ -356,8 +356,8 @@ public class ImageGUI extends Observed {
         public void paintComponent(Graphics g) {
             // System.out.println("Thread " + Thread.currentThread() + " repainting");
             synchronized (images) { // Added 16-Mar-2016
-                // int tileWidth = getInstance().frame.getWidth()/width;
-                // int tileHeight = getInstance().frame.getHeight()/height;
+                int tileWidth = getInstance().frame.getWidth()/width;
+                int tileHeight = getInstance().frame.getHeight()/height;
                 for (int j = 0; j != maxLevel; j++)
                     for (ImageTile i : images) {
                         if (i.getLayer() == j) {
