@@ -46,6 +46,31 @@ public class Manel extends Entity {
                         super.move(Direction.DOWN);
         }
 
+        public void run(Direction direction) {
+                Point2D newPosition = getPosition().plus(direction.asVector());
+
+                if (canMove(direction))
+                        setPosition(newPosition);
+
+                getEManager().getElementsAt(newPosition).forEach(e ->{
+                        if( !this.equals(e) ){
+                                e.interact(this, newPosition);
+                        }
+                });
+
+                Point2D otherNewPosition = getPosition().plus(direction.asVector());
+
+                if (canMove(direction))
+                        setPosition(otherNewPosition);
+
+                getEManager().getElementsAt(otherNewPosition).forEach(e ->{
+                        if( !this.equals(e) ){
+                                e.interact(this, otherNewPosition);
+                        }
+                });
+
+        }
+
         @Override
         public void terminate() {
                 lifes--;

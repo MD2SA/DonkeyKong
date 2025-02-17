@@ -2,12 +2,17 @@ package pt.iscte.poo.utils;
 
 public class KeyState {
 
-        private final int keyCode;
-        private final boolean isShiftDown;
+        private static KeyState instance;
 
-        public KeyState(int keyCode, boolean isShiftDown) {
-                this.keyCode = keyCode;
-                this.isShiftDown = isShiftDown;
+        private int keyCode = -1;
+        private boolean isShiftDown = false;
+
+        private KeyState() {}
+
+        public static KeyState getInstance() {
+                if( instance == null )
+                        instance = new KeyState();
+                return instance;
         }
 
         public int getKeyCode() {
@@ -16,5 +21,10 @@ public class KeyState {
 
         public boolean isShiftDown() {
                 return isShiftDown;
+        }
+
+        public void updateState(int keyCode, boolean isShiftDown) {
+                this.keyCode = keyCode;
+                this.isShiftDown = isShiftDown;
         }
 }

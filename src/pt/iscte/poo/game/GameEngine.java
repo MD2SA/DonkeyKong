@@ -32,7 +32,7 @@ public class GameEngine implements Observer {
 
         public static GameEngine getInstance() {
                 if ( instance == null )
-                instance = new GameEngine();
+                        instance = new GameEngine();
                 return instance;
         }
 
@@ -104,7 +104,7 @@ public class GameEngine implements Observer {
                 animations.removeAll();
 
                 if (gui.wasKeyPressed()) {
-                        int key = gui.keyPressed();
+                        KeyState key = gui.keyState();
                         handleKeyPressed(key);
                         room.update();
                 }
@@ -123,10 +123,14 @@ public class GameEngine implements Observer {
                 lastTickProcessed++;
         }
 
-        private void handleKeyPressed(int key) {
-                if ( Direction.isDirection(key) ) {
-                        manel.move(Direction.directionFor(key));
-                } else if ( key == 66 ) {
+        private void handleKeyPressed(KeyState keyState) {
+                int keyCode = keyState.getKeyCode();
+                if ( Direction.isDirection(keyCode) ) {
+                        if( keyState.isShiftDown() )
+                                manel.run(Direction.directionFor(keyCode));
+                        else
+                                manel.move(Direction.directionFor(keyCode));
+                } else if ( keyState.getKeyCode() == 66 ) {
                         manel.useItem(Bomb.class);
                 }
         }

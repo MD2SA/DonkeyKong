@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import pt.iscte.poo.observer.Observed;
+import pt.iscte.poo.utils.KeyState;
 import pt.iscte.poo.utils.Point2D;
 
 /**
@@ -89,6 +90,7 @@ public class ImageGUI extends Observed {
     // private Point2D lastMouseCoordinate;
     private boolean mouseClicked;
 
+        private KeyState keyState = KeyState.getInstance();
     private int lastKeyPressed;
     private boolean keyPressed;
     private boolean windowClosed = false; // Added 25-oct-2022
@@ -174,7 +176,8 @@ public class ImageGUI extends Observed {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                lastKeyPressed = e.getKeyCode();
+                keyState.updateState(e.getKeyCode(), e.isShiftDown());
+                // lastKeyPressed = e.getKeyCode();
                 keyPressed = true;
                 releaseObserver();
             }
@@ -356,8 +359,8 @@ public class ImageGUI extends Observed {
         public void paintComponent(Graphics g) {
             // System.out.println("Thread " + Thread.currentThread() + " repainting");
             synchronized (images) { // Added 16-Mar-2016
-                int tileWidth = getInstance().frame.getWidth()/width;
-                int tileHeight = getInstance().frame.getHeight()/height;
+                // int tileWidth = getInstance().frame.getWidth()/width;
+                // int tileHeight = getInstance().frame.getHeight()/height;
                 for (int j = 0; j != maxLevel; j++)
                     for (ImageTile i : images) {
                         if (i.getLayer() == j) {
@@ -443,8 +446,8 @@ public class ImageGUI extends Observed {
         return p.getX() >= 0 && p.getY() >= 0 && p.getX() <= width && p.getY() <= height;
     }
 
-    public synchronized int keyPressed() {
-        return lastKeyPressed;
+    public synchronized KeyState keyState() {
+        return keyState;
     }
 
     public synchronized boolean wasWindowClosed() { // Added 25-out-2022

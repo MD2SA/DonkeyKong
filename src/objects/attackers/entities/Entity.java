@@ -131,8 +131,8 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 // if( isFallingAt(getPosition()) )
                 //         direction = Direction.DOWN;
 
-                Point2D newPosition = getPosition().plus(direction.asVector());
                 looking = lookingDirection(direction);
+                Point2D newPosition = getPosition().plus(direction.asVector());
 
                 if (canMove(direction))
                         setPosition(newPosition);
