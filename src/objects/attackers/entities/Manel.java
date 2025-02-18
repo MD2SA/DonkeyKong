@@ -47,6 +47,7 @@ public class Manel extends Entity {
         }
 
         public void run(Direction direction) {
+                lookingDirection(direction);
                 Point2D newPosition = getPosition().plus(direction.asVector());
 
                 if (canMove(direction))

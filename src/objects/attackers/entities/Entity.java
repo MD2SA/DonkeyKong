@@ -131,8 +131,8 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 // if( isFallingAt(getPosition()) )
                 //         direction = Direction.DOWN;
 
-                looking = lookingDirection(direction);
                 Point2D newPosition = getPosition().plus(direction.asVector());
+                lookingDirection(direction);
 
                 if (canMove(direction))
                         setPosition(newPosition);
@@ -157,11 +157,15 @@ public abstract class Entity extends MovableAttacker implements Attackable {
                 return isValidPosition && canTranspose;
         }
 
-        public char lookingDirection(Direction direction){
+        protected void lookingDirection(Direction direction){
                 switch(direction){
-                        case Direction.LEFT: return 'L';
-                        case Direction.RIGHT: return 'R';
-                        default: return looking;
+                        case Direction.LEFT:
+                                looking = 'L';
+                                break;
+                        case Direction.RIGHT:
+                                looking = 'R';
+                                break;
+                        default:  break;
                 }
         }
 
