@@ -1,126 +1,125 @@
-# Donkey Kong 2D - Java Game
-<div align="center">
-  <img src="images/GameExample.png" alt="Game Preview" width="400">
-</div>
+# Donkey Kong 2D
 
-## Description
+<p align="center">
+  <img src="images/GameExample.png" alt="Donkey Kong 2D gameplay" width="420">
+</p>
 
-This is a 2D game inspired by the classic **Donkey Kong**, developed in **Java**. The project was originally created as part of the **Object-Oriented Programming (POO)** course. Currently, I am working on improving and expanding the project to enhance its features and gameplay.
+<p align="center">
+  <a href="https://github.com/MD2SA/DonkeyKong/actions/workflows/build.yml">
+    <img src="https://github.com/MD2SA/DonkeyKong/actions/workflows/build.yml/badge.svg?branch=main" alt="Build status">
+  </a>
+  <img src="https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white" alt="Java 21">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License">
+</p>
 
-The game follows the original mechanics where the main character (Manel) must climb platforms to rescue the princess while avoiding obstacles like traps, enemies and bananas thrown by Donkey Kong.
+A 2D platform game inspired by the classic **Donkey Kong**, built with **Java Swing**. Guide Manel through four handcrafted levels, dodge enemies and traps, collect items and rescue the princess.
 
-**Note:** The initial structure of the game was provided by my professors as part of the course. They set up a basic package structure with the following components:
-
-- **objects** – A package with manel, floor and a wall.
-- **pt.iscte.poo.game** – The basic game logic framework.
-- **pt.iscte.poo.gui** – The starting point for the graphical user interface (GUI).
-- **pt.iscte.poo.observer** – A package classes for implementing the observer pattern.
-- **pt.iscte.poo.utils** – Some utility classes with initial code that supported future game functionality.
-
-These files enabled the initialization of the game but did not contain any gameplay or interactive content. I then expanded on this initial setup by modifying some of the game initialization logic, implementing the core gameplay mechanics, adding levels, and creating a scoreboard to meet the project requirements, along with some extra features, such as animations and other components, to make the game more enjoyable.
-
-Although efficiency was not a priority at the outset due to the project's smaller scale and the primary focus on its object-oriented programming (OOP) aspects, I now plan to shift my attention toward optimizing the game, enhancing its performance, and improving its overall quality.
-
-## Game Commands
-
-Here are the commands you can use during gameplay:
-
-- **Arrow Keys**: Move your character (Manel) left, right, up, and down.
-- **B**: Drop a bomb at the current position
+The project started as the final assignment for the **Object-Oriented Programming (OOP/POO)** course at **ISCTE-IUL** and is now maintained as a public portfolio project.
 
 ## Features
 
-- 2D game with simple graphics.
-- Main character (Manel) can move left, right, up, and down, and can temporarily become immune to gravity while moving fast between platforms.
-- Avoid enemies, traps and obstacles thrown by Donkey Kong.
-- Multiple levels with increasing difficulty.
-- Scoring system based on time.
+- Four bundled levels and support for custom room files
+- Player movement with gravity, ladders and platform collision
+- Enemies and projectiles: Donkey Kong, BadGuy, Bat, bananas and fireballs
+- Inventory and items: bombs, sword, key and meat
+- Traps, hidden traps, locked doors and a rescue objective
+- Animations for explosions, fire and damage
+- Persistent local top-10 scores for each room set
+- Object-oriented architecture with the Observer pattern and a position-based entity map
 
-## Technologies Used
+## Controls
 
-- **Java** (for game logic and graphical interface interaction).
-- **Java Swing** (for graphical interface and window handling).
+| Key | Action |
+| --- | --- |
+| Arrow keys | Move and climb |
+| B | Place a bomb |
 
-## How to Run the Game
+## Requirements
 
-1. Clone the repository:
+- **Java 21 or newer** — the code uses the Sequenced Collection API
+- Linux, macOS or Windows
+- No external libraries
 
-   ```bash
-   git clone https://github.com/MD2SA/DonkeyKong.git
+## Getting started
 
-2. Run the Game
+### 1. Clone the repository
 
-- Option 1: Using an IDE (e.g., Eclipse)
-  - If you're using an IDE like Eclipse, simply open the project and run the `Main` class directly.
-    
-- Option 2: Using Command Line (Manual Compilation)
-  - If you prefer running the game via the command line or have made changes to the code, you can compile and run it manually. To make this process easier for Windows users, a script `run.ps1` has been created.
+```bash
+git clone https://github.com/MD2SA/DonkeyKong.git
+cd DonkeyKong
+```
 
-    ```bash
-    .\run.ps1
+### 2. Run the game
 
-> **Note:** You can load custom rooms by providing the path to your rooms folder as an argument when running the game.
+**Linux / macOS**
 
-# 📋 Task List - DonkeyKong
+```bash
+chmod +x run.sh
+./run.sh
+```
 
-## 🛠️ Logic and Interaction
-- [ ] Improve game interaction logic
-  - [x] All interactions are guaranteed to complete in O(n) time or better.
-  - [x] Reduce duplicate memory
-    - [x] Remove main List and leave only HashMap
-- [x] Fix found bugs in game mechanics
-  - [x] Bomb not exploding alone
-  - [x] Stacking bombs in the same place
-  - [x] Trap with weird activation
-- [ ] Refactor gravity logic for more realistic behavior ( do not allow to move while falling )
-- [ ] Implement pathfinding system for entities to find Manel
-- [ ] Consider enemies not attacking each other nor trigger traps
+**Windows (PowerShell)**
 
-## 🚀 New Features
-- [ ] Add new levels or maps
-- [ ] Introduce new characters or enemies
-- [ ] Implement power-ups or collectibles
-- [ ] Improve scoring system
-  - [ ]  Show the leaderboard in a specific room
-  - [ ]  Add points to each run and kill (maybe)
-- [ ] Implement new alternative movement controls in addition to the arrow keys, such as WASD for gamers and HJKL for Vim users.
-- [ ] New movement
-  - [ ] Jump
-  - [ ] Sprint  
-- [ ] Include animations for entities' actions
+```powershell
+.\run.ps1
+```
 
-## 🧪 Testing
-- [ ] Write unit tests for core game logic
-- [ ] Test edge cases for player interactions
+The scripts compile the sources into `bin/` and start `pt.iscte.poo.game.Main`.
 
-## 🎨 Design and UI
-- [ ] Improve visual feedback for player actions (e.g., sound effects, visual cues)
-- [ ] Make the game window resizable
-  - [ ] Ensure the game scales correctly when resized
-- [ ] Create better UI for entire window
-- [ ] Add a pause menu with options (e.g., restart, exit)
-- [ ] Create inventory and health tab 
+### Run with custom rooms
 
-## 📚 Documentation
-- [x] Write a `README.md` with:
-  - [x] Project description
-  - [x] Instructions to set up and run the game
-  - [x] Controls and gameplay guide
-- [ ] Add in-code comments for key functions and modules
-- [ ] Create a flowchart for game mechanics and interactions
-- [ ] Update UML
+```bash
+./run.sh rooms/custom
+```
 
-## 🧹 Optimization and Maintenance
-- [ ] Optimize game performance
-- [ ] Refactor code for better readability and modularity
+```powershell
+.\run.ps1 rooms\custom
+```
 
-## 🌟 Future Ideas
-- [ ] Add multiplayer support (local or online)
-- [ ] Implement a level editor for users to create their own maps
-- [ ] Add achievements or unlockable content
+If no path is given, the game loads the levels in `rooms/default/`.
 
-# UML DIAGRAM
+### Run from an IDE
 
-<div align="center">
-  <img src="images/UML.png" alt="UML DIAGRAM" width="1000">
-</div>
+- **Eclipse:** `File > Import > Existing Projects into Workspace`, select the repository and run `pt.iscte.poo.game.Main`.
+- **IntelliJ IDEA:** open the repository, mark `src` as a **Sources Root** and run `Main`.
+
+## Project structure
+
+```text
+src/
+├── objects/                 Game entities and world elements
+│   ├── animations/          Explosions, blood and fire effects
+│   ├── attackers/           Enemies and projectiles
+│   ├── interfaces/          Gameplay contracts
+│   ├── items/               Collectibles and inventory items
+│   └── staticElements/      Floors, walls, stairs, doors and traps
+└── pt/iscte/poo/
+    ├── game/                Game loop, rooms, loading and entity management
+    ├── gui/                 Swing GUI (course-provided base)
+    ├── observer/            Observer pattern (course-provided base)
+    └── utils/               Geometry, direction, time and file helpers
+rooms/
+├── default/                 Four bundled levels
+└── custom/                  Example custom levels
+images/                      Sprites, screenshots and UML diagram
+```
+
+## Architecture
+
+`GameEngine` is a singleton that observes the GUI. Each tick advances the current `Room`; `RoomLoader` parses the text-based levels and `EntityManager` stores entities in a position map for fast lookups. Game elements implement `ImageTile`, so the GUI can render them by layer without knowing their concrete types.
+
+The UML diagram is available at [`images/UML.png`](images/UML.png).
+
+## Roadmap
+
+Planned improvements are tracked in [ROADMAP.md](ROADMAP.md). Contributions and suggestions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Credits
+
+- The initial package structure and the base classes in `src/pt/iscte/poo/gui`, `observer` and `utils` were provided by the **Object-Oriented Programming course team at ISCTE-IUL (POO 2024)**. They are included for educational continuity and remain the work of their original authors.
+- Gameplay, levels, entities, UI integration and documentation were developed by **MD2SA**.
+- Sprite assets are used for educational, non-commercial purposes. *Donkey Kong* and related characters are trademarks of Nintendo. This is a fan-made project and is not affiliated with or endorsed by Nintendo.
+
+## License
+
+The original code in this repository is released under the [MIT License](LICENSE). Third-party course material and sprite assets are excluded from that grant and remain the property of their respective owners.
