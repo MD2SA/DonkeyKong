@@ -18,8 +18,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+          cache: maven
 
-      - name: Compile sources
-        run: |
-          mkdir -p bin
-          javac -d bin -sourcepath src $(find src -name '*.java' | sort)
+      - name: Build with Maven
+        run: ./mvnw -B verify
