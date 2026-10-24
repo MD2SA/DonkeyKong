@@ -149,7 +149,7 @@ public class ImageGUI extends Observed {
         });
 
         //sets the IconImage on windows, doesn't work on macOS
-        ImageIcon icon = new ImageIcon("icon/DonkeyKong.png");
+        ImageIcon icon = new ImageIcon("images/DonkeyKongR.png");
         frame.setIconImage(icon.getImage());
 
         initImages();

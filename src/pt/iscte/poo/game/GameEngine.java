@@ -43,7 +43,7 @@ public class GameEngine implements Observer {
         private void setupGUI() {
                 animations.removeAll();
                 gui.clearImages();
-                gui.setName("DonkeyGong - Projeto de POO");
+                gui.setName("Donkey Kong 2D");
                 gui.go();
         }
 
@@ -67,7 +67,6 @@ public class GameEngine implements Observer {
         }
 
         public void abort() {
-                System.out.println("abort");
                 room = null;
                 gui.dispose();
                 System.exit(0);
