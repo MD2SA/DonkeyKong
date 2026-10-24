@@ -78,6 +78,35 @@ The scripts compile the sources into `bin/` and start `pt.iscte.poo.game.Main`.
 
 If no path is given, the game loads the levels in `rooms/default/`.
 
+<details>
+<summary>Room file format</summary>
+
+Room files are plain-text 10×10 grids. Intermediate levels start with a `#<level>;<next-file>` header; the final level omits the header so the game ends after it. Each character maps to an element:
+
+| Character | Element |
+| --- | --- |
+| ` ` | Floor |
+| `W` | Wall |
+| `S` | Stairs |
+| `t` | Trap |
+| `h` | Hidden trap |
+| `G` | Donkey Kong |
+| `B` | Bat |
+| `g` | BadGuy |
+| `b` | Bomb |
+| `k` | Key |
+| `s` | Sword |
+| `m` | Meat |
+| `0` | Door |
+| `.` | Locked door |
+| `P` | Princess |
+| `H` | Player start |
+
+See [`rooms/default/`](rooms/default/) and [`rooms/custom/`](rooms/custom/) for complete examples.
+
+</details>
+
+
 ### Run from an IDE
 
 - **Eclipse:** `File > Import > Existing Projects into Workspace`, select the repository and run `pt.iscte.poo.game.Main`.
@@ -107,6 +136,8 @@ images/                      Sprites, screenshots and UML diagram
 ## Architecture
 
 `GameEngine` is a singleton that observes the GUI. Each tick advances the current `Room`; `RoomLoader` parses the text-based levels and `EntityManager` stores entities in a position map for fast lookups. Game elements implement `ImageTile`, so the GUI can render them by layer without knowing their concrete types.
+
+Completed runs are stored locally in `scores/`, which is ignored by Git.
 
 The UML diagram is available at [`images/UML.png`](images/UML.png).
 
