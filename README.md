@@ -38,7 +38,8 @@ The project started as the final assignment for the **Object-Oriented Programmin
 
 - **Java 21 or newer** — the code uses the Sequenced Collection API
 - Linux, macOS or Windows
-- No external libraries
+- No runtime dependencies
+- The Maven wrapper is included, so Maven does not need to be installed
 
 ## Getting started
 
@@ -54,26 +55,34 @@ cd DonkeyKong
 **Linux / macOS**
 
 ```bash
-chmod +x run.sh
-./run.sh
+./mvnw compile exec:java
 ```
 
-**Windows (PowerShell)**
+**Windows (PowerShell or CMD)**
 
 ```powershell
-.\run.ps1
+.\mvnw.cmd compile exec:java
 ```
 
-The scripts compile the sources into `bin/` and start `pt.iscte.poo.game.Main`.
+The Maven wrapper compiles the project into `target/classes` and starts `pt.iscte.poo.game.Main`.
+
+### Build a jar
+
+```bash
+./mvnw package
+java -jar target/donkey-kong-1.0.0.jar
+```
+
+Run the jar from the repository root so the game can find `images/` and `rooms/`.
 
 ### Run with custom rooms
 
 ```bash
-./run.sh rooms/custom
+./mvnw compile exec:java -Dexec.args="rooms/custom"
 ```
 
 ```powershell
-.\run.ps1 rooms\custom
+.\mvnw.cmd compile exec:java "-Dexec.args=rooms/custom"
 ```
 
 If no path is given, the game loads the levels in `rooms/default/`.
@@ -109,13 +118,15 @@ See [`rooms/default/`](rooms/default/) and [`rooms/custom/`](rooms/custom/) for 
 
 ### Run from an IDE
 
-- **Eclipse:** `File > Import > Existing Projects into Workspace`, select the repository and run `pt.iscte.poo.game.Main`.
-- **IntelliJ IDEA:** open the repository, mark `src` as a **Sources Root** and run `Main`.
+- **Eclipse:** `File > Import > Existing Maven Projects`, select the repository and run `pt.iscte.poo.game.Main`.
+- **IntelliJ IDEA:** open the repository (or its `pom.xml`), wait for Maven import and run `Main`.
 
 ## Project structure
 
 ```text
-src/
+pom.xml                      Maven build configuration
+mvnw / mvnw.cmd              Maven wrapper scripts
+src/main/java/
 ├── objects/                 Game entities and world elements
 │   ├── animations/          Explosions, blood and fire effects
 │   ├── attackers/           Enemies and projectiles
@@ -147,7 +158,7 @@ Planned improvements are tracked in [ROADMAP.md](ROADMAP.md). Contributions and 
 
 ## Credits
 
-- The initial package structure and the base classes in `src/pt/iscte/poo/gui`, `observer` and `utils` were provided by the **Object-Oriented Programming course team at ISCTE-IUL (POO 2024)**. They are included for educational continuity and remain the work of their original authors.
+- The initial package structure and the base classes in `src/main/java/pt/iscte/poo/gui`, `observer` and `utils` were provided by the **Object-Oriented Programming course team at ISCTE-IUL (POO 2024)**. They are included for educational continuity and remain the work of their original authors.
 - Gameplay, levels, entities, UI integration and documentation were developed by **MD2SA**.
 - Sprite assets are used for educational, non-commercial purposes. *Donkey Kong* and related characters are trademarks of Nintendo. This is a fan-made project and is not affiliated with or endorsed by Nintendo.
 

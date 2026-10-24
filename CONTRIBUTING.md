@@ -17,7 +17,7 @@ Open an issue with:
 2. Make your change and keep it focused on a single topic.
 3. Compile and run the game locally:
    ```bash
-   ./run.sh
+   ./mvnw compile exec:java
    ```
 4. Use a clear commit message, preferably in the Conventional Commits style (`fix:`, `feat:`, `docs:`, `refactor:`).
 5. Open a pull request describing what changed and why.
